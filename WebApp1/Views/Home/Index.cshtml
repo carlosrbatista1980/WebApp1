@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+
+    var d1 = ViewBag.data1 as IEnumerable<SelectListItem>;
+    var d2 = ViewBag.data2 as IEnumerable<SelectListItem>;
+}
+
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+    </head>
+
+<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
+    <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+    </ol>
+    <div id="div1">
+        @Html.DropDownList("drop1", d1)
+        @Html.TextBox("tb1")
+        <input type="text" id="ib1" />
+    </div>
+
+    <div id="div2">
+        @Html.DropDownList("drop2", d2)
+        <input type="text" id="ib2" />
+    </div>
+</div>
+
+<script>
+    $("#drop2").change(function () {
+        $.ajax({
+            method: 'POST',
+            url: '/Home/RefreshDiv2', //  "/Controller/Action"
+            data: { drop2: $("#drop2").val() }, // Pass value that you want to controller.
+            success: function (data) {
+                $("#ib2").val(data); //Implement partial refreshing.
+            }
+        });
+    })
+</script>
